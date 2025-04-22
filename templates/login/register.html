@@ -2,11 +2,8 @@
 <html data-bs-theme="light" lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1.0, shrink-to-fit=no"
-    />
-    <title>Register - Brand</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no" />
+    <title>Register - EcoMart</title>
     <link rel="stylesheet" href="/static/styles/bootstrap.min.css" />
     <style>
       .container {
@@ -34,39 +31,46 @@
                 <div class="text-center">
                   <h4 class="text-dark mb-4">Create an Account!</h4>
                 </div>
-                <form class="user" action="/register" method="post">
+                <form class="user" action="/register" method="post" novalidate>
                   <div class="mb-3">
                     <input
                       class="form-control form-control-user"
                       type="text"
                       placeholder="Your Name"
                       name="name"
+                      required
                     />
                   </div>
                   <div class="mb-3">
                     <input
-                      class="form-control form-control-user"
-                      type="email"
-                      placeholder="Email Address"
-                      name="email"
-                    />
-                  </div>
+  class="form-control form-control-user"
+  type="email"
+  name="email"
+  placeholder="Email Address (e.g., name@mail.com)"
+  pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.(com|in|org|net|edu|gov|co)$"
+  title="Enter a valid email like name@example.com"
+  required
+/>
 
+                  </div>
                   <div class="mb-3">
                     <input
                       class="form-control form-control-user"
                       type="password"
-                      placeholder="Password"
+                      placeholder="Password (Min 8 chars, strong)"
                       name="password"
+                      pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[\W_]).{8,}"
+                      title="Password must be at least 8 characters long, with 1 uppercase, 1 lowercase, 1 number, and 1 special character"
+                      required
                     />
                   </div>
-
                   <div class="mb-3">
                     <input
                       class="form-control form-control-user"
                       type="text"
                       placeholder="Address"
                       name="address"
+                      required
                     />
                   </div>
                   <div class="mb-3">
@@ -75,19 +79,16 @@
                       type="tel"
                       placeholder="Mobile Number"
                       name="phone_number"
+                      pattern="[0-9]{10}"
+                      title="Enter 10 digit phone number"
+                      required
                     />
                   </div>
-
-                  <button
-                    class="btn btn-primary d-block btn-user w-100"
-                    type="submit"
-                  >
+                  <button class="btn btn-primary d-block btn-user w-100" type="submit">
                     Register Account
                   </button>
                   <hr />
-                  <hr />
                 </form>
-                <div class="text-center"></div>
                 <div class="text-center">
                   <a class="small" href="/">Already have an account? Login!</a>
                 </div>
@@ -97,5 +98,41 @@
         </div>
       </div>
     </div>
+<script>
+  document.querySelector("form.user").addEventListener("submit", function (e) {
+    const email = document.querySelector("input[name='email']").value.trim();
+    const password = document.querySelector("input[name='password']").value.trim();
+    const phone = document.querySelector("input[name='phone_number']").value.trim();
+
+    // Email Regex: must end with .com, .in, etc.
+    const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.(com|in|org|net|edu|gov|co)$/;
+
+    // Strong password: at least 8 chars, one uppercase, one lowercase, one number, one special char
+    const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?#&])[A-Za-z\d@$!%*?#&]{8,}$/;
+
+    // Mobile number: exactly 10 digits
+    const phonePattern = /^\d{10}$/;
+
+    if (!emailPattern.test(email)) {
+      alert("❌ Please enter a valid email (e.g., yourname@example.com)");
+      e.preventDefault();
+      return false;
+    }
+
+    if (!passwordPattern.test(password)) {
+      alert("❌ Password must be at least 8 characters, include uppercase, lowercase, number, and special character.");
+      e.preventDefault();
+      return false;
+    }
+
+    if (!phonePattern.test(phone)) {
+      alert("❌ Enter a valid 10-digit mobile number.");
+      e.preventDefault();
+      return false;
+    }
+  });
+</script>
+
+
   </body>
 </html>
