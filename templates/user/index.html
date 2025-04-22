@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Welcome</title>
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{{ url_for('static',filename='styles/style.css') }}"
+    />
+  </head>
+
+  <body>
+    <div class="main">
+      <div class="navigation">
+        <h1>EcoMart</h1>
+        <form method="post" action="/search">
+          <input
+            name="search"
+            type="text"
+            placeholder="Search here"
+            class="searchC"
+            id="inputField"
+          />
+          <button type="submit" class="searchB"><h2>Search</h2></button>
+        </form>
+        <div class="right-nav">
+          <p><a href="/category">Categories</a></p>
+          <a href="/carbon-footprint" style="padding-top: 15px;color: forestgreen;">Carbon Footprint</a>
+          <p><a href="/cart/{{user.id}}">Cart</a></p>
+          <p><a href="/user/payments/{{user.id}}">Payments</a></p>
+          <div class="dropdown">
+            <p class="my-name">{{user.name}}</p>
+            <div class="dropdown-content">
+              <p class="drop-menu">
+                <a href="/profile/{{user.id}}">My Profile</a>
+              </p>
+              <p class="drop-menu">
+                <a href="/orders/{{user.id}}"> My Orders</a>
+              </p>
+              <p class="drop-menu"><a href="/logout">Logout</a></p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="cat-menu-container">
+        {% for category in categories %}
+        <button type="button" class="cat-menu">
+          <a href="#{{category.name}}">{{category.name}}</a>
+        </button>
+        {% endfor %}
+      </div>
+
+      <div class="lower">
+        <br />
+        <div class="category filterDiv">
+          <h1>Recently Added Products</h1>
+          <div class="product-list">
+            {% for product in recent_products %}
+            <div class="product" name="{{product.name}}">
+              <div class="product-image">
+                <img src="/static/assets/{{product.image }}" alt="" />
+              </div>
+              <div class="product-info">
+                <h2 class="product-name">{{product.name}}</h2>
+                <p>Best Before <b>{{product.best_before}}</b></p>
+                <p><b>₹{{product.price*1.25}}</b></p>
+                <button
+                  class="add-to-cart"
+                  onclick="location.href='product/{{product.id}}'"
+                >
+                  Buy Now
+                </button>
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+
+        <div class="container">
+          {% for category in categories %}
+          <div class="category" id="{{category.name}}">
+            <h1>{{category.name}}</h1>
+            <div class="product-list">
+              {% for product in products %} {% if product.category == category.name %}
+              <div class="product" name="{{product.name}}">
+                <div class="product-image">
+                  <img src="/static/assets/{{product.image }}" alt="" />
+                </div>
+                <div class="product-info">
+                  <h2 class="product-name">{{product.name}}</h2>
+                  <p>Best Before <b>{{product.best_before}}</b></p>
+                  <p><b>₹{{product.price*1.25}}</b></p>
+                  <button
+                    class="add-to-cart"
+                    onclick="location.href='product/{{product.id}}'"
+                  >
+                    Buy Now
+                  </button>
+                </div>
+              </div>
+              {% endif %} {% endfor %}
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+    <script>
+      const inputField = document.getElementById("inputField");
+      inputField.addEventListener("keyup", function (event) {
+        if (event.key === "Enter") {
+          const enteredText = inputField.value;
+          window.location.href = "http://127.0.0.1:5000/search/" + enteredText;
+        }
+      });
+    </script>
+  </body>
+</html>

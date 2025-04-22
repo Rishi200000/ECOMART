@@ -1,0 +1,117 @@
+<!D
+<p><strong>Carbon Footprint:</strong> {{ product[11] }}</p>
+OCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{{ url_for('static',filename='styles/header.css') }}"
+    />
+  </head>
+  <body>
+    <br />
+    <div class="main">
+      <div class="navigation">
+        <h2><a href="/">EcoMart</a></h2>
+      </div>
+    </div>
+
+    <div class="container mt-5 mb-5">
+      <div class="card shadow-lg p-3 mb-5 bg-white rounded">
+        <div class="row g-0">
+          <div class="col-md-6 border-end">
+            <div class="d-flex flex-column justify-content-md-around ml-6">
+              <div class="main_image">
+                <img
+                  src="/static/assets/{{product.image }}"
+                  id="main_product_image"
+                  width="90%"
+                  height="90%"
+                />
+              </div>
+              <div class="thumbnail_images"></div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="p-3 right-side">
+              <button
+                class="btn btn-outline-dark"
+                onclick="location.href='/home#{{product.category}}'"
+              >
+                {{product.category}}
+              </button>
+              <div class="d-flex justify-content-between align-items-center">
+                <h1>{{product.name}}</h1>
+                <span class="heart"><i class="bx bx-heart"></i></span>
+              </div>
+              <div class="mt-2 pr-3 content">
+                <p>{{product.description}}</p>
+              </div>
+              <h3>₹{{product.price}}</h3>
+              <p>Best Before <b>{{product.best_before}}</b></p>
+              {% if (product.quantity > 1) %}
+              <button type="button" class="btn btn-light">In Stock</button>
+              <div class="ratings d-flex flex-row align-items-center"></div>
+              <div class="mt-5">
+                <span class="fs-1"
+                  ><h6>Quantity : {{product.si_unit}}</h6></span
+                >
+                <form method="POST">
+                  <div class="inputs">
+                    <input
+                      type="number"
+                      name="quantity"
+                      placeholder="In Kg"
+                      value="1"
+                    />
+                  </div>
+                  <input
+                    type="hidden"
+                    name="product_id"
+                    value="{{product.id}}"
+                  />
+                  <input
+                    type="hidden"
+                    name="product_name"
+                    value="{{product.name}}"
+                  />
+                  <input type="hidden" name="price" value="{{product.price}}" />
+
+                  <br />
+                  <button type="submit" class="btn btn-outline-success">
+                    <b>Add to Cart</b>
+                  </button>
+                </form>
+              </div>
+            </div>
+            {% else %}
+            <button type="button" class="btn btn-danger">Out of Stock</button>
+            <div class="ratings d-flex flex-row align-items-center"></div>
+            <div class="mt-5">
+              <span class="fs-1"><h6>Quantity : {{product.si_unit}}</h6></span>
+
+              <div class="inputs">
+                <input type="number" name="" placeholder="In Kg" disabled />
+              </div>
+              <br />
+              <button class="btn btn-outline-danger" disabled>
+                <b>Add to Cart</b>
+              </button>
+            </div>
+          </div>
+          {% endif %}
+
+          <div class="buttons d-flex flex-row mt-5 gap-3"></div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

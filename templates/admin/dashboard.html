@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Admin's Dashboard</title>
+  <link rel="stylesheet" href="/static/styles/bootstrap.min.css" />
+  <style>
+    .container { max-width: 100%; }
+  </style>
+</head>
+<body id="page-top">
+  <div id="wrapper">
+    <div class="d-flex flex-column" id="content-wrapper">
+      <div id="content">
+        <nav class="navbar navbar-expand-lg bg-body py-3">
+          <div class="container">
+            <a class="navbar-brand" href="/admin"><span class="fs-1"><strong>EcoMart</strong></span></a>
+            <button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navcol-1">
+              <span class="visually-hidden">Toggle navigation</span>
+              <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navcol-1">
+              <ul class="navbar-nav me-auto">
+                <li class="nav-item"><a class="nav-link active" href="/admin/product_handler">Products</a></li>
+                <li class="nav-item"><a class="nav-link" href="/admin/manage_category/">Category</a></li>
+                <li class="nav-item"><a class="nav-link" href="/admin/userbase">Users</a></li>
+                <li class="nav-item"><a class="nav-link" href="#payment-history">Payments</a></li>
+              </ul>
+              <a href="/logout" class="text-decoration-none text-white">
+                <button class="btn btn-danger fs-3" type="button">Logout</button>
+              </a>
+            </div>
+          </div>
+        </nav>
+
+        <div class="container-fluid">
+          <div class="d-sm-flex justify-content-between align-items-center mb-4">
+            <h3 class="text-dark mb-0">Dashboard</h3>
+          </div>
+
+          <!-- Dashboard Cards -->
+          <!-- [cards here...] -->
+
+          <!-- Payment History Table -->
+          <div class="card shadow mb-5 mt-4" id="payment-history">
+            <div class="card-header py-3">
+              <h4 class="m-0 font-weight-bold text-primary">Payment History</h4>
+            </div>
+            <div class="card-body">
+              <div class="table-responsive">
+                <table class="table table-bordered">
+                  <thead class="thead-dark">
+                    <tr>
+                      <th>Order ID</th>
+                      <th>User</th>
+                      <th>Total (₹)</th>
+                      <th>Payment Method</th>
+                      <th>Date</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for order in all_orders %}
+                    <tr>
+                      <td>#{{ order.id }}</td>
+                      <td>
+                        {% for user in all_users %}
+                          {% if user.id == order.user_id %}
+                            {{ user.name }}
+                          {% endif %}
+                        {% endfor %}
+                      </td>
+                      <td>{{ order.total }}</td>
+                      <td>{{ order.payment_method }}</td>
+                      <td>{{ order.created_at }}</td>
+                    </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+        </div> <!-- container-fluid -->
+      </div> <!-- content -->
+    </div> <!-- content-wrapper -->
+  </div> <!-- wrapper -->
+</body>
+</html>

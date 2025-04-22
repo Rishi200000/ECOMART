@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Payments - EcoMart</title>
+  <link rel="stylesheet" href="/static/styles/bootstrap.min.css">
+</head>
+<body>
+  <div class="container mt-5">
+    <h1 class="text-center mb-4">🧾 My Payment History</h1>
+
+    {% if payments and payments|length > 0 %}
+    <table class="table table-bordered table-striped">
+      <thead class="thead-dark">
+        <tr>
+          <th>#</th>
+          <th>Date</th>
+          <th>Total Amount</th>
+          <th>Payment Method</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for p in payments %}
+        <tr>
+          <td>{{ loop.index }}</td>
+          <td>{{ p.created_at }}</td>
+          <td>₹{{ "%.2f"|format(p.total) }}</td>
+          <td>{{ p.payment_method }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    {% else %}
+      <p class="text-center">No payments found.</p>
+    {% endif %}
+
+    <div class="text-center mt-4">
+      <a href="/home" class="btn btn-success">⬅️ Back to Home</a>
+    </div>
+  </div>
+</body>
+</html>

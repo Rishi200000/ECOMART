@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Admin – Payment Records</title>
+  <link rel="stylesheet" href="/static/styles/bootstrap.min.css"/>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 20px; }
+    h2 { color: #333; margin-bottom: 20px; }
+    table {
+      width: 100%; border-collapse: collapse; background: #fff;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    th, td { padding: 10px; text-align: center; border: 1px solid #ddd; }
+    th { background: #2d6a4f; color: #fff; }
+    tr:hover { background: #f1f1f1; }
+  </style>
+</head>
+<body>
+  <h2>💳 Payment Records</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Order ID</th>
+        <th>User ID</th>
+        <th>Total (₹)</th>
+        <th>Payment Method</th>
+        <th>Date</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for p in payments %}
+      <tr>
+        <td>{{ p.id }}</td>
+        <td>{{ p.user_id }}</td>
+        <td>₹{{ "%.2f"|format(p.total) }}</td>
+        <td>{{ p.payment_method }}</td>
+        <td>{{ p.created_at }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</body>
+</html>

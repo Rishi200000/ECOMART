@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Shopping Cart</title>
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{{ url_for('static',filename='styles/header.css') }}"
+    />
+  </head>
+
+  <body>
+    <br />
+    <div class="main">
+      <div class="navigation">
+        <h2><a href="/">EcoMart</a></h2>
+      </div>
+    </div>
+
+    <div class="container mt-5 mb-5">
+      <div class="card shadow-lg p-3 mb-5 bg-white rounded">
+        <div class="row g-0">
+          <div class="col-md-12">
+            <h1>Shopping Cart</h1>
+            <table class="table">
+              <thead>
+                <tr>
+                  <th scope="col">#</th>
+                  <th scope="col">Product Name</th>
+                  <th scope="col">Price</th>
+                  <th scope="col">Quantity</th>
+                  <th scope="col">Subtotal</th>
+                  <th scope="col">Action</th>
+                </tr>
+              </thead>
+              <tbody id="cart-items">
+                {% if cart_items %} {% for item in cart_items %}
+                <tr>
+                  <th scope="row">{{ loop.index }}</th>
+                  <td>{{ item.product_name }}</td>
+                  <td>₹{{ item.price }}</td>
+                  <td>
+                    <input
+                      type="number"
+                      name="quantity"
+                      value="{{ item.quantity }}"
+                      disabled
+                    />
+                  </td>
+                  <td>₹{{ item.price * item.quantity }}</td>
+                  <td>
+                    <a href="/cart/del/{{item.cart_id}}">
+                      <button class="btn btn-danger">Remove</button>
+                    </a>
+                  </td>
+                </tr>
+                {% endfor %} {% else %}
+                <tr>
+                  <td colspan="6">Your cart is empty.</td>
+                </tr>
+                {% endif %}
+              </tbody>
+            </table>
+            <div class="d-flex justify-content-end align-items-center">
+              {% if cart_items %}
+              <h4 id="total-amount">Total: ₹{{ total }}</h4>
+              <form action="/cart/place_order/{{user_id}}" method="POST">
+                <input type="hidden" name="user_id" value="{{ user_id }}" />
+                <input
+                  type="hidden"
+                  id="hidden-total"
+                  name="total"
+                  value="{{ total }}"
+                />
+
+                <!-- Payment Method Selector -->
+                <div class="form-group mx-3">
+                  <label for="payment_method">Payment Method</label>
+                  <select name="payment_method" id="payment_method" class="form-control" required>
+                    {% for method in payment_methods %}
+                      <option value="{{ method }}">{{ method }}</option>
+                    {% endfor %}
+                  </select>
+                </div>
+
+                <button
+                  type="submit"
+                  class="btn btn-primary ml-3"
+                  onclick="placeOrder()"
+                >
+                  Place Order
+                </button>
+              </form>
+
+              {% else %}
+
+              <button
+                class="btn btn-primary ml-3"
+                onclick="location.href='/home'"
+              >
+                Let's Shop
+              </button>
+              {% endif %}
+            </div>
+            <br />
+            <input
+              type="text"
+              id="coupon_code"
+              name="coupon_code"
+              placeholder="Coupon Code"
+            />
+            <button
+              type="button"
+              id="apply_coupon"
+              class="btn btn-secondary ml-2"
+              onclick="applyCoupon()"
+            >
+              Apply Coupon
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script>
+      function applyCoupon() {
+        const couponInput = document.getElementById("coupon_code");
+        const totalAmountElement = document.getElementById("hidden-total");
+
+        const currentTotal = totalAmountElement.value;
+
+        const couponCode = couponInput.value.trim();
+
+        if (couponCode === "ECOMART25") {
+          const discountedTotal = parseInt(currentTotal - currentTotal * 0.25);
+
+          totalAmountElement.setAttribute("value", discountedTotal);
+          document.getElementById("total-amount").textContent =
+            "Total: ₹" + discountedTotal;
+
+          couponInput.setAttribute("disabled", true);
+          document
+            .getElementById("apply_coupon")
+            .setAttribute("disabled", true);
+
+          alert("Coupon applied: 25% off!");
+        } else {
+          alert("Invalid coupon code. Please enter a valid code.");
+        }
+      }
+      function placeOrder() {
+        alert("Order placed successfully!");
+      }
+<<<<<<< Updated upstream
+=======
+      
+
+>>>>>>> Stashed changes
+    </script>
+  </body>
+</html>

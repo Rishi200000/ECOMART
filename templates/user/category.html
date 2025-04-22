@@ -1,0 +1,66 @@
+s<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Welcome</title>
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{{ url_for('static',filename='styles/style.css') }}"
+    />
+  </head>
+
+  <body>
+    <div class="main">
+      <div class="navigation">
+        <a href="/">
+          <h1>EcoMart</h1>
+        </a>
+        <div class="right-nav">
+          <p><a href="/cart/{{user.id}}">Categories</a></p>
+          <p><a href="/cart/{{user.id}}">Cart</a></p>
+
+          <div class="dropdown">
+            <p class="my-name">{{user.name}}</p>
+
+            <div class="dropdown-content">
+              <p class="drop-menu">
+                <a href="/profile/{{user.id}}">My Profile</a>
+              </p>
+              <p class="drop-menu">
+                <a href="/orders/{{user.id}}"> My Orders</a>
+              </p>
+              <p class="drop-menu"><a href="/logout">Logout</a></p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <br />
+      <div class="category">
+        <h1>Categories</h1>
+        <div class="product-list">
+          {% for category in categories %}
+          <div class="product">
+            <div class="product-image">
+              <img src="/static/assets/{{category.image}}" alt="" />
+            </div>
+            <div class="product-info">
+              <br />
+              <h2 class="product-name">{{category.name}}</h2>
+              <br />
+              <button
+                class="add-to-cart"
+                onclick="location.href='/home#{{category.name}}'"
+              >
+                Explore
+              </button>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

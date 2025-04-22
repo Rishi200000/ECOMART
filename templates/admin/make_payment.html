@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Make Payment</title>
+  <link rel="stylesheet" href="/static/styles/bootstrap.min.css">
+</head>
+<body class="container mt-5">
+  <h2>🧾 Make Manual Payment</h2>
+  <form method="POST" action="/admin/make-payment">
+    <div class="mb-3">
+      <label for="user_id" class="form-label">User ID:</label>
+      <input type="number" name="user_id" class="form-control" required>
+    </div>
+    <div class="mb-3">
+      <label for="amount" class="form-label">Amount (₹):</label>
+      <input type="number" name="amount" class="form-control" required>
+    </div>
+    <button type="submit" class="btn btn-primary">Submit Payment</button>
+  </form>
+  <br>
+  <a href="/admin/payments" class="btn btn-secondary">← Back to Payments</a>
+</body>
+</html>
