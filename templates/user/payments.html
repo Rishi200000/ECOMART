@@ -25,7 +25,7 @@
         <tr>
           <td>{{ loop.index }}</td>
           <td>{{ p.created_at }}</td>
-          <td>₹{{ "%.2f"|format(p.total) }}</td>
+          <td>₹{{ "%.2f"|format(p['total']) }}</td>
           <td>{{ p.payment_method }}</td>
         </tr>
         {% endfor %}

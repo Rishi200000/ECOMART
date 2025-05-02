@@ -9,7 +9,7 @@ from flask import request, redirect, render_template, flash
 from datetime import datetime
 import sqlite3
 from vault import Order_Detail, User
-
+conn = sqlite3.connect('database.sqlite3')
 import os
 from authentication import *
 
@@ -202,18 +202,25 @@ def add_category():
     return redirect('/admin/manage-category')  # or wherever your admin category page is
 
 
-
 @app.route('/admin/payments')
 def view_payments():
+    import sqlite3
     conn = sqlite3.connect('database.sqlite3')
-    cursor = conn.cursor()
-    cursor.execute("SELECT id, user_id, amount, date FROM orders ORDER BY date DESC")
-    payments = cursor.fetchall()
-    conn.close()
+    cur = conn.cursor()
+    cur.execute("SELECT id, user_id, total, created_at, payment_method FROM order_detail")
+    rows = cur.fetchall()
+    payments = [
+        {
+            'id': row[0],
+            'user_id': row[1],
+            'total': row[2],
+            'created_at': row[3],
+            'payment_method': row[4]
+        }
+        for row in rows
+    ]
     return render_template('admin/payments.html', payments=payments)
 
-from flask import request, redirect, render_template
-from datetime import datetime
 
 @app.route('/admin/make-payment', methods=['GET', 'POST'])
 def make_payment():

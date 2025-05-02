@@ -11,3 +11,4 @@ typing_extensions==4.7.1
 Werkzeug==2.3.6
 flask_bootstrap
 flask_restful
+Flask-Migrate==4.1.0

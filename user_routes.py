@@ -7,7 +7,6 @@ from authentication import *
 from flask import request, redirect, url_for, flash
 from vault import agent, User, Product, Category, Cart, Order_Detail, Order_Items
 
-
 @app.route('/')
 @app.route('/home')
 def home():
